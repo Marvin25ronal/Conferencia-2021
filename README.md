@@ -14,7 +14,8 @@ para correr el servidor es con
 npm start
 ```
 * Crear Carpeta components dentro de src
-* 
+* Borrar codigo innecesario
+* Crear componentes rfce | rce | 
 
 [Para convertir el codigo HTML a react](https://magic.reactjs.net/htmltojsx.htm)
 
