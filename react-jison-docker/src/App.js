@@ -1,9 +1,16 @@
 import React from 'react'
+import './App.css'
+
+import NavBar from './components/NavBar'
+import Editores from './components/Editores'
+
+
 
 function App() {
     return (
-        <div>
-            <h1>Hola como estas</h1>
+        <div className="App ">
+            <NavBar />
+            <Editores />
         </div>
     )
 }
