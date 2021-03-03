@@ -3,7 +3,7 @@
 
 Para iniciar creamos el proyecto de react
 ```bash
-npx create-react-app react-jison-docker
+npx create-react-app react-jison-docker 
 ```
 esperamos unos minutos para que termine de configurar el servidor
 
@@ -145,34 +145,46 @@ export default editor
 ### Comunicacion entre componentes REACT-CONTEXT
 
 Para esta parte usamos react context entre los editores y la consola
-Creamos una carpeta de context que seran los utilizados por los modulos
+se pasan los valores por el state de la clase editores
 
 ```javascript
-//Archivo context Editor-state
-import React,{useReducer} from 'react'
-const Context=React.createContext();
-function Editorstate() {
-    const initialState = {
-        consola: "",
-        editor: ""
+ state = {
+        consola: 'Salida-----',
+        editor: `print("Hola mundo")`
     }
-    const [state, dispatch] = useReducer(Context, initialState)
-    const getText = () => {
-
+    setconsola=(consola)=>{
+        this.setState({consola:consola,editor:this.state.editor})
     }
-    const setText = () => {
-
-    }
-    const analizar = () => {
-
-    }
-    return(
-        <Context>
-            {}
-        </Context>
-    )
-}
-export default Editorstate
 ```
 
 ## Jison
+En la carpeta analizador agregamos el archivo para crear la sintaxys.jison
+
+vamos a utilizar el patron interprete por lo cual es mejor tener typescript para el uso de clases
+```bash
+npm install typescript awesome-typescript-loader
+```
+
+Para compilar todo nuestro codigo ctrl+shift+B y seleccionamos tsc:build
+
+Archivo de configuracion
+```json
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": true,
+        "watch": true,
+        "outDir": "build",
+        "allowJs": true
+    },
+    "exclude": [
+        "build",
+        "node_modules"
+    ],
+    "include": [
+        "./**/*"
+    ]
+}
+```
+

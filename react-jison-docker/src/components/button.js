@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-
+import {Analizador} from '../Codigo/build/Analizador/Analizador'
 export class button extends Component {
     analizar=()=> {
         const editor=this.props.editor
         const setconsola=this.props.setconsola
+        let analizador=new Analizador();
+        let res=analizador.Interpretar(editor)
         //logica
-        setconsola(editor)
+        setconsola(res)
     }
     render() {
         return (

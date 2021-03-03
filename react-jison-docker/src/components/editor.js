@@ -8,9 +8,21 @@ import "ace-builds/src-noconflict/theme-vibrant_ink"
 import "ace-builds/src-noconflict/mode-velocity"
 import 'animate.css/animate.min.css'
 export class editor extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            tipo: this.props.tipo
+        }
+    }
     texto() {
-        const texto=this.props.texto
+        const texto = this.props.texto
         return texto
+    }
+    onChange = (props) => {
+        if (this.props.tipo == 'editor') {
+            let setEditor=this.props.setEditor
+            setEditor(props)
+        }
     }
     render() {
         return (
@@ -26,6 +38,7 @@ export class editor extends Component {
                     highlightActiveLine={true}
                     value={this.texto()}
                     width="auto"
+
                 ></AceEditor>
             </div>
         )

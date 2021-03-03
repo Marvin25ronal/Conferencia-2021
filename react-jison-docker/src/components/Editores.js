@@ -11,25 +11,29 @@ export class Editores extends Component {
         consola: 'Salida-----',
         editor: `print("Hola mundo")`
     }
-    setconsola=(consola)=>{
-        this.setState({consola:consola,editor:this.state.editor})
+    setconsola = (consola) => {
+        this.setState({ consola: consola, editor: this.state.editor })
     }
-    
+    setEditor = (editor) => {
+        this.setState({ consola: this.state.consola, editor: editor })
+        console.log("Se Cambia")
+    }
+
     render() {
         const { consola, editor } = this.state
         return (
             <div className=" container mt-4 animate__animated animate__fadeInUp">
                 <div className="columns">
                     <div className="column is-three-quarteers">
-                        <Editor theme="cobalt" mode="golang" tipo='editor' texto={editor}/>
+                        <Editor theme="cobalt" mode="golang" tipo='editor' texto={editor} setEditor={this.setEditor} />
                     </div>
                     <div className="column is-three-quarteers">
-                        <Editor theme="vibrant_ink" mode="velocity" texto={consola} />
+                        <Editor theme="vibrant_ink" mode="velocity" tipo='consola' texto={consola} />
                     </div>
                 </div>
                 <div className="columns">
                     <div className="column is-2">
-                        <Button texto="Analizar" consola={consola} editor={editor} setconsola={this.setconsola}/>
+                        <Button texto="Analizar" consola={consola} editor={editor} setconsola={this.setconsola} />
                     </div>
                 </div>
             </div>
