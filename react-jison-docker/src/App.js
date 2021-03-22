@@ -8,7 +8,7 @@ import Editores from './components/Editores'
 
 function App() {
     return (
-        <div className="App ">
+        <div className="App">
             <NavBar />
             <Editores />
         </div>
