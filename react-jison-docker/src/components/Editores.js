@@ -9,7 +9,7 @@ import React, { Component } from 'react'
 export class Editores extends Component {
     state = {
         consola: 'Salida-----',
-        editor: `print("Hola mundo")`
+        editor: `print("Hola mundo");`
     }
     setconsola = (consola) => {
         this.setState({ consola: consola, editor: this.state.editor })

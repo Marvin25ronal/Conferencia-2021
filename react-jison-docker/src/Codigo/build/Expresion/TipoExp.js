@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tipo = exports.TipoExp = void 0;
 var TipoExp = /** @class */ (function () {
     function TipoExp(t) {
         this.tipo = t;

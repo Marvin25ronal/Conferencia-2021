@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Print = void 0;
 var VarGlobal_1 = require("../Globales/VarGlobal");
 var Print = /** @class */ (function () {
     function Print(toprint, linea, columna) {
@@ -9,6 +10,10 @@ var Print = /** @class */ (function () {
     }
     Print.prototype.ejecutar = function (e) {
         var val = this.toprint.getValor(e);
+        if (val) {
+            val = val.getValor(e);
+        }
+        console.log("Entre");
         var cadena = val.toString() + " \n";
         VarGlobal_1.VarGlobal.getInstance().concatenar(cadena);
         return null;

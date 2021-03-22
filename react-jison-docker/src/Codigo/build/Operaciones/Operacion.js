@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Operador = exports.Operacion = void 0;
 var Operacion = /** @class */ (function () {
     function Operacion(op1, op2, op) {
         this.op1 = op1;
@@ -23,14 +24,14 @@ var Operacion = /** @class */ (function () {
 exports.Operacion = Operacion;
 var Operador;
 (function (Operador) {
-    Operador[Operador["SUMA"] = 0] = "SUMA";
-    Operador[Operador["RESTA"] = 1] = "RESTA";
-    Operador[Operador["DIVISION"] = 2] = "DIVISION";
-    Operador[Operador["MULTIPLICACION"] = 3] = "MULTIPLICACION";
-    Operador[Operador["OR"] = 4] = "OR";
-    Operador[Operador["AND"] = 5] = "AND";
-    Operador[Operador["NOT"] = 6] = "NOT";
-    Operador[Operador["MAYOR"] = 7] = "MAYOR";
-    Operador[Operador["MENOR"] = 8] = "MENOR";
+    Operador["SUMA"] = "+";
+    Operador["RESTA"] = "-";
+    Operador["DIVISION"] = "/";
+    Operador["MULTIPLICACION"] = "*";
+    Operador["OR"] = "||";
+    Operador["AND"] = "&&";
+    Operador["NOT"] = "!";
+    Operador["MAYOR"] = ">";
+    Operador["MENOR"] = "<";
 })(Operador = exports.Operador || (exports.Operador = {}));
 //# sourceMappingURL=Operacion.js.map

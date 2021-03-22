@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AST = void 0;
 var Entorno_1 = require("../Entorno/Entorno");
 var VarGlobal_1 = require("../Globales/VarGlobal");
 var AST = /** @class */ (function () {
