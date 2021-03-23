@@ -151,8 +151,7 @@ IMPRIMIR:
     ;
 
 EXP:
-    EXP MAS EXP{$$=new ARITMETICAS($1,$3,OPERADOR.SUMA,this._$.first_line,this._$.first_column+1);}
-    |ENTERO {$$=new LITERAL(Number($1),new TIPOEXP(TIPO.INTEGER),this._$.first_line,this._$.first_column+1);}
+    ENTERO {$$=new LITERAL(Number($1),new TIPOEXP(TIPO.INTEGER),this._$.first_line,this._$.first_column+1);}
     |DECIMAL{$$=new LITERAL(Number($1),new TIPOEXP(TIPO.DOUBLE),$1.first_line,$1.first_column+1);}
     |TRUE{$$=new LITERAL(true,new TIPOEXP(TIPO.BOOLEAN),$1.first_line,$1.first_column+1);}
     |FALSE{$$=new LITERAL(false,new TIPOEXP(TIPO.BOOLEAN),$1.first_line,$1.first_column+1);}
