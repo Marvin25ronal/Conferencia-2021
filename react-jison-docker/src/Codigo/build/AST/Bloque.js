@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Bloque = void 0;
 var Entorno_1 = require("../Entorno/Entorno");
 var Bloque = /** @class */ (function () {
     function Bloque(acciones) {

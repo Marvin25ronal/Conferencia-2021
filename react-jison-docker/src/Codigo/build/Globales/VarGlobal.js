@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.VarGlobal = void 0;
 var VarGlobal = /** @class */ (function () {
     function VarGlobal() {
         this._cadena = "";
@@ -11,7 +12,7 @@ var VarGlobal = /** @class */ (function () {
         set: function (value) {
             this._cadena = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     VarGlobal.prototype.concatenar = function (cad) {

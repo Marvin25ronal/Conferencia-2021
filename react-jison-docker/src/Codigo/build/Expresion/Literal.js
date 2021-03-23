@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Literal = void 0;
 var Literal = /** @class */ (function () {
     function Literal(valor, tipo, linea, columna) {
         this.valor = valor;

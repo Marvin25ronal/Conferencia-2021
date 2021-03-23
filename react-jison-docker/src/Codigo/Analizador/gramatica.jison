@@ -52,9 +52,10 @@ NOT "!"
 AND "&&"
 OR  "||"
 DOSPUNTOS_IGUAL ":="
+PYCOMA ";"
 ID [A-Za-z_][_0-9A-Za-z]*
 
-
+print("Hola mundo")
 %%
 <INITIAL>\s+                    %{/*espacios*/%}
 <INITIAL>{COMILLA}              %{cadena="";this.begin("string");%}
@@ -84,6 +85,7 @@ ID [A-Za-z_][_0-9A-Za-z]*
 <INITIAL>{AND}                  %{return "AND";%}
 <INITIAL>{OR}                   %{return "OR";%}
 <INITIAL>{DOSPUNTOS_IGUAL}      %{return "DOSPUNTOS_IGUAL";%}
+<INITIAL>{PYCOMA}               %{return "PYCOMA";%}
 
 <INITIAL>{DECIMAL}              %{return "DECIMAL";%}
 <INITIAL>{ENTERO}               %{return "ENTERO";%}
@@ -103,23 +105,26 @@ ID [A-Za-z_][_0-9A-Za-z]*
 <string>{ENTER}                 %{this.begin("INITIAL");/*String sin finalizar reportar error*/%}
 <string><<EOF>>                 %{this.begin("INITIAL");/*String sin finalizar*/%}
 <<EOF>>                         %{return "EOF";%}
-.                               %{/*  */%}
+.                               %{var nuevo=new ERRORES(TIPOERRORES.LEXICO,"Caracter invalido: "+yytext,yylloc.first_line,yylloc.first_column+1);lista_errores.push(nuevo);%}
 /lex
 
 %{
+    var lista_errores=[];
     const AST=require('../AST/AST.js').AST
     const TIPOEXP=require('../Expresion/TipoExp.js').TipoExp
     const TIPO=require('../Expresion/TipoExp.js').Tipo
     const LITERAL=require('../Expresion/Literal.js').Literal
     const PRINT=require('../Instruccion/Print.js').Print
+    const ERRORES=require('../Errores/Errores.js').Errores
+    const TIPOERRORES=require('../Errores/Errores.js').TipoError
+    const ARITMETICAS=require('../Operaciones/Aritmeticas.js').Aritmeticas
+    const OPERADOR=require('../Operaciones/Operacion.js').Operador
 %}
 
 %right 'IGUAL'
-%left 'MAS_MAS'  'MENOS_MENOS'
-%left 'XOR'
 %left 'OR'
 %left 'AND'
-%left 'IGUAL_IGUAL' 'DISTINTO' 'TRIPLE_IGUAL'
+%left 'IGUAL_IGUAL' 'DISTINTO' 
 %nonassoc 'MENOR' 'MENOR_IGUAL' 'MAYOR' 'MAYOR_IGUAL'
 %left 'MAS' 'MENOS'
 %left 'POR' 'DIV' 'MODULO'
@@ -132,23 +137,24 @@ ID [A-Za-z_][_0-9A-Za-z]*
 %start INICIAL
 %%
 INICIAL
-    : CUERPO EOF {var arbol=new AST($1);return arbol;}
-    |EOF {return null;}
+    : CUERPO EOF {var arbol=new AST($1);var a={'errores':lista_errores,'arbol':arbol};lista_errores=[];return a;}
+    |EOF {var a={'errores':lista_errores};lista_errores=[];return a;}
     ;
 
 CUERPO:
-    CUERPO IMPRIMIR{$1.push($2);$$=$1}
-    |IMPRIMIR{$$=[$1];}
-   // | error PYCOMA
+    CUERPO IMPRIMIR PYCOMA{$1.push($2);$$=$1}
+    |IMPRIMIR PYCOMA{$$=[$1];}
+    | error PYCOMA{var nuevo=new ERRORES(TIPOERRORES.SINTACTICO,'Error con '+yytext,@1.first_line,@1.first_column+1);lista_errores.push(nuevo);$$=null}
     ;
 IMPRIMIR:
     PRINT PAR_A EXP PAR_C{$$=new PRINT($3,this._$.first_line,this._$.first_column+1)}
     ;
 
 EXP:
-    ENTERO {$$=new LITERAL(Number($1),new TIPOEXP(TIPO.INTEGER),this._$.first_line,this._$.first_column+1);}
-    |DECIMAL
-    |TRUE
-    |FALSE
+    EXP MAS EXP{$$=new ARITMETICAS($1,$3,OPERADOR.SUMA,this._$.first_line,this._$.first_column+1);}
+    |ENTERO {$$=new LITERAL(Number($1),new TIPOEXP(TIPO.INTEGER),this._$.first_line,this._$.first_column+1);}
+    |DECIMAL{$$=new LITERAL(Number($1),new TIPOEXP(TIPO.DOUBLE),$1.first_line,$1.first_column+1);}
+    |TRUE{$$=new LITERAL(true,new TIPOEXP(TIPO.BOOLEAN),$1.first_line,$1.first_column+1);}
+    |FALSE{$$=new LITERAL(false,new TIPOEXP(TIPO.BOOLEAN),$1.first_line,$1.first_column+1);}
     |STRING{$$=new LITERAL($1,new TIPOEXP(TIPO.STRING),this._$.first_line,this._$.first_column+1);}
     ;

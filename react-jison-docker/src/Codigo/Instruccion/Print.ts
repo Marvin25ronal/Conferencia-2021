@@ -1,5 +1,6 @@
 import { Entorno } from "../Entorno/Entorno";
 import { Expresion } from "../Expresion/Expresion";
+import { Literal } from "../Expresion/Literal";
 import { VarGlobal } from "../Globales/VarGlobal";
 import { Instruccion } from "./Instruccion";
 
@@ -14,6 +15,10 @@ export class Print implements Instruccion {
     }
     ejecutar(e: Entorno): any {
         var val = this.toprint.getValor(e)
+        if (val as Literal){
+            val=(val as Literal).getValor(e)
+        }
+        console.log("Entre")
         var cadena=`${val.toString()} \n`
         VarGlobal.getInstance().concatenar(cadena)
         return null;

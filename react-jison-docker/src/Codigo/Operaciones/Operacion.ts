@@ -24,9 +24,18 @@ export abstract class Operacion implements Expresion {
         throw new Error("Method not implemented.");
     }
     //abstract max(a: TipoExp, b: TipoExp): TipoExp
+    public abstract max(a:TipoExp, b:TipoExp):TipoExp|null
 
 }
 
 export enum Operador {
-    SUMA, RESTA, DIVISION, MULTIPLICACION, OR, AND, NOT, MAYOR, MENOR
+    SUMA="+",
+    RESTA="-", 
+    DIVISION="/",
+    MULTIPLICACION="*", 
+    OR="||", 
+    AND="&&", 
+    NOT="!", 
+    MAYOR=">", 
+    MENOR="<"
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Simbolo = void 0;
 var Simbolo = /** @class */ (function () {
     function Simbolo(tipo, id, linea, columna) {
         this._tipo = tipo;
@@ -14,7 +15,7 @@ var Simbolo = /** @class */ (function () {
         set: function (value) {
             this._tipo = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Simbolo.prototype, "id", {
@@ -24,7 +25,7 @@ var Simbolo = /** @class */ (function () {
         set: function (value) {
             this._id = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Simbolo.prototype, "linea", {
@@ -34,7 +35,7 @@ var Simbolo = /** @class */ (function () {
         set: function (value) {
             this._linea = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Simbolo.prototype, "columna", {
@@ -44,7 +45,7 @@ var Simbolo = /** @class */ (function () {
         set: function (value) {
             this._columna = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Simbolo;
