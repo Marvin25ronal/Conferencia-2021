@@ -14,7 +14,8 @@ export class Print implements Instruccion {
         this.Ncolumna = columna
     }
     ejecutar(e: Entorno): any {
-        console.log(this.toprint)
+        //console.log(this.toprint)
+        //console.log(e.tabla)
         var val = this.toprint.getValor(e)
         if(val==null){
             val="nulo"

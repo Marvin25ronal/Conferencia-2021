@@ -4,10 +4,10 @@ import { TipoExp } from "./TipoExp";
 
 export class Literal implements Expresion {
     valor: Object
-    tipo: TipoExp
+    tipo: TipoExp|null
     numberlinea: Number
     numbercolumna: Number
-    constructor(valor: Object, tipo: TipoExp, linea: Number, columna: Number) {
+    constructor(valor: Object, tipo: TipoExp|null, linea: Number, columna: Number) {
         this.valor = valor
         this.tipo = tipo
         this.numberlinea = linea
@@ -16,7 +16,7 @@ export class Literal implements Expresion {
     getValor(e: Entorno): any {
         return this.valor
     }
-    getTipo(e: Entorno): TipoExp {
+    getTipo(e: Entorno): TipoExp|null {
         return this.tipo
     }
     linea(): Number {

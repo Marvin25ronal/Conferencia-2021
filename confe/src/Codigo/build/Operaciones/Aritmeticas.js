@@ -44,6 +44,7 @@ var Aritmeticas = /** @class */ (function (_super) {
     };
     Aritmeticas.prototype.getValor = function (e) {
         var r = this.val(e);
+        //console.log(r)
         if (r instanceof Literal_1.Literal) {
             return r.getValor(e);
         }
@@ -55,13 +56,21 @@ var Aritmeticas = /** @class */ (function (_super) {
         }
         switch (this.op) {
             case Operacion_1.Operador.SUMA:
-                return this.Suma(this.op1, this.op2, this.op, this.Nlinea, this.Ncolumna, e);
+                return this.Suma(this.op1, this.op2, this.Nlinea, this.Ncolumna, e);
+            case Operacion_1.Operador.DIVISION:
+                return this.Division(this.op1, this.op2, this.Nlinea, this.Ncolumna, e);
+            case Operacion_1.Operador.MULTIPLICACION:
+                return this.Multiplicacion(this.op1, this.op2, this.Nlinea, this.Ncolumna, e);
+            case Operacion_1.Operador.RESTA:
+                return this.Resta(this.op1, this.op2, this.Nlinea, this.Ncolumna, e);
         }
         return null;
     };
-    Aritmeticas.prototype.Suma = function (op1, op2, op, linea, columna, e) {
-        var valor1 = this.op1.getValor(e);
-        var valor2 = this.op2.getValor(e);
+    Aritmeticas.prototype.Suma = function (op1, op2, linea, columna, e) {
+        var valor1 = op1.getValor(e);
+        var valor2 = op2.getValor(e);
+        console.log(valor1);
+        console.log(valor2);
         var tipo1 = this.op1.getTipo(e);
         var tipo2 = this.op2.getTipo(e);
         var tipores = this.max(tipo1, tipo2);
@@ -71,9 +80,70 @@ var Aritmeticas = /** @class */ (function (_super) {
             switch (tipofinal.tipo) {
                 case "STRING":
                     return new Literal_1.Literal(valor1.toString() + valor2.toString(), new TipoExp_1.TipoExp(TipoExp_1.Tipo.STRING), this.Nlinea, this.Ncolumna);
+                case TipoExp_1.Tipo.DOUBLE:
+                    return new Literal_1.Literal(Number(valor1) + Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.DOUBLE), this.Nlinea, this.Ncolumna);
+                case TipoExp_1.Tipo.INTEGER:
+                    return new Literal_1.Literal(Number(valor1) + Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.INTEGER), this.Nlinea, this.Ncolumna);
             }
         }
         return null;
+    };
+    Aritmeticas.prototype.Division = function (op1, op2, linea, columna, e) {
+        var valor1 = op1.getValor(e);
+        var valor2 = op2.getValor(e);
+        var tipo1 = this.op1.getTipo(e);
+        var tipo2 = this.op2.getTipo(e);
+        var tipores = this.max(tipo1, tipo2);
+        var tipofinal;
+        if (tipores != null) {
+            tipofinal = tipores;
+            switch (tipofinal.tipo) {
+                case TipoExp_1.Tipo.DOUBLE:
+                    return new Literal_1.Literal(Number(valor1) / Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.DOUBLE), this.Nlinea, this.Ncolumna);
+                case TipoExp_1.Tipo.INTEGER:
+                    return new Literal_1.Literal(Number(valor1) / Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.INTEGER), this.Nlinea, this.Ncolumna);
+            }
+        }
+        return null;
+    };
+    Aritmeticas.prototype.Multiplicacion = function (op1, op2, linea, columna, e) {
+        var valor1 = op1.getValor(e);
+        var valor2 = op2.getValor(e);
+        var tipo1 = this.op1.getTipo(e);
+        var tipo2 = this.op2.getTipo(e);
+        var tipores = this.max(tipo1, tipo2);
+        var tipofinal;
+        if (tipores != null) {
+            tipofinal = tipores;
+            switch (tipofinal.tipo) {
+                case TipoExp_1.Tipo.DOUBLE:
+                    return new Literal_1.Literal(Number(valor1) * Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.DOUBLE), this.Nlinea, this.Ncolumna);
+                case TipoExp_1.Tipo.INTEGER:
+                    return new Literal_1.Literal(Number(valor1) * Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.INTEGER), this.Nlinea, this.Ncolumna);
+            }
+        }
+        return null;
+    };
+    Aritmeticas.prototype.Resta = function (op1, op2, linea, columna, e) {
+        var valor1 = op1.getValor(e);
+        var valor2 = op2.getValor(e);
+        var tipo1 = this.op1.getTipo(e);
+        var tipo2 = this.op2.getTipo(e);
+        var tipores = this.max(tipo1, tipo2);
+        var tipofinal;
+        if (tipores != null) {
+            tipofinal = tipores;
+            switch (tipofinal.tipo) {
+                case TipoExp_1.Tipo.DOUBLE:
+                    return new Literal_1.Literal(Number(valor1) - Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.DOUBLE), this.Nlinea, this.Ncolumna);
+                case TipoExp_1.Tipo.INTEGER:
+                    return new Literal_1.Literal(Number(valor1) - Number(valor2), new TipoExp_1.TipoExp(TipoExp_1.Tipo.INTEGER), this.Nlinea, this.Ncolumna);
+            }
+        }
+        return null;
+    };
+    Aritmeticas.prototype.getTipo = function (e) {
+        return this.tipoDominante(this.op1.getTipo(e), this.op2.getTipo(e));
     };
     return Aritmeticas;
 }(Operacion_1.Operacion));

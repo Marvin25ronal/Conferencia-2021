@@ -14,7 +14,7 @@ export abstract class Operacion implements Expresion {
     getValor(e: Entorno) {
         throw new Error("Method not implemented.");
     }
-    getTipo(e: Entorno): TipoExp {
+    getTipo(e: Entorno): TipoExp|null {
         throw new Error("Method not implemented.");
     }
     linea(): Number {
@@ -24,7 +24,7 @@ export abstract class Operacion implements Expresion {
         throw new Error("Method not implemented.");
     }
     //abstract max(a: TipoExp, b: TipoExp): TipoExp
-    public abstract max(a:TipoExp, b:TipoExp):TipoExp|null
+    public abstract max(a:TipoExp|null, b:TipoExp|null):TipoExp|null
 
 }
 

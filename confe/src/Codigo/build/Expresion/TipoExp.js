@@ -17,6 +17,9 @@ var TipoExp = /** @class */ (function () {
     TipoExp.prototype.isNumeric = function () {
         return this.isInt() || this.isDouble();
     };
+    TipoExp.prototype.isBoolean = function () {
+        return this.tipo == Tipo.BOOLEAN;
+    };
     return TipoExp;
 }());
 exports.TipoExp = TipoExp;

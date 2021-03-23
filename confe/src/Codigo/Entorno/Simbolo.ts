@@ -1,39 +1,27 @@
 import { TipoExp } from "../Expresion/TipoExp";
 
-export class Simbolo {
-    private _tipo: TipoExp;
-    public get tipo(): TipoExp {
-        return this._tipo;
+export  class Simbolo {
+    public valor:any
+    public tipo: TipoExp|null
+    id: string
+    public linea: Number
+    public columna: Number
+    constructor(valor:any,tipo:TipoExp|null,id:string,linea:Number,columna:Number){
+        this.tipo=tipo
+        this.id=id
+        this.linea=linea
+        this.columna=columna
+        this.valor=valor
     }
-    public set tipo(value: TipoExp) {
-        this._tipo = value;
+    public getTipo():TipoExp|null{
+        return this.tipo
     }
-    private _id: String;
-    public get id(): String {
-        return this._id;
+    public setTipo(tipo:TipoExp){
+        this.tipo=tipo
     }
-    public set id(value: String) {
-        this._id = value;
+    public getId():string{
+        return this.id
     }
-    private _linea: Number;
-    public get linea(): Number {
-        return this._linea;
-    }
-    public set linea(value: Number) {
-        this._linea = value;
-    }
-    private _columna: Number;
-    public get columna(): Number {
-        return this._columna;
-    }
-    public set columna(value: Number) {
-        this._columna = value;
-    }
-    constructor(tipo:any, id:any, linea:number, columna:number) {
-        this._tipo = tipo
-        this._columna = columna
-        this._linea = linea
-        this._id = id
-    }
+
 
 }

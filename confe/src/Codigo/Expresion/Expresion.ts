@@ -4,5 +4,5 @@ import { TipoExp } from "./TipoExp";
 
 export interface Expresion extends Nodo {
     getValor(e: Entorno): any;
-    getTipo(e:Entorno):TipoExp;
+    getTipo(e:Entorno):TipoExp|null;
 }

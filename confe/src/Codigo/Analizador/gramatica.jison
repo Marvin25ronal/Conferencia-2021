@@ -11,14 +11,9 @@
 
 //TOKENS
 
-VAR "var"
-/*IF "if"
-FOR "for"
-ELSE "else"
-RETURN "return"
-DOUBLE "double"
-INTEGER "int"
-BOOLEAN "boolean"*/
+
+IF "if"
+
 FALSE "false"
 TRUE "true"
 PRINT "print"
@@ -40,8 +35,8 @@ MAS "+"
 MENOS "-"
 POR "*"
 DIV "/"
-/*LLAV_A "{"
-LLAV_C "}"*/
+LLAV_A "{"
+LLAV_C "}"
 PAR_A "("
 PAR_C ")"
 //IGUAL "="
@@ -59,9 +54,9 @@ print("Hola mundo")
 %%
 <INITIAL>\s+                    %{/*espacios*/%}
 <INITIAL>{COMILLA}              %{cadena="";this.begin("string");%}
-/*<INITIAL>{VAR}                  %{return "VAR";%}
+<INITIAL>{VAR}                  %{return "VAR";%}
 <INITIAL>{IF}                   %{return "IF";%}
-<INITIAL>{FOR}                  %{return "FOR";%}
+/*<INITIAL>{FOR}                  %{return "FOR";%}
 <INITIAL>{ELSE}                 %{return "ELSE";%}
 <INITIAL>{RETURN}               %{return "RETURN";%}
 <INITIAL>{DOUBLE}               %{return "DOUBLE";%}
@@ -78,6 +73,8 @@ print("Hola mundo")
 <INITIAL>{DIV}                  %{return "DIV";%}
 <INITIAL>{PAR_A}                %{return "PAR_A";%}
 <INITIAL>{PAR_C}                %{return "PAR_C";%}
+<INITIAL>{LLAV_A}               %{return "LLAV_A";%}
+<INITIAL>{LLAV_C}               %{return "LLAV_C";%}
 <INITIAL>{MAYOR}                %{return "MAYOR";%}
 <INITIAL>{MENOR}                %{return "MENOR";%}
 <INITIAL>{IGUAL_IGUAL}          %{return "IGUAL_IGUAL";%}
@@ -119,32 +116,48 @@ print("Hola mundo")
     const TIPOERRORES=require('../Errores/Errores.js').TipoError
     const ARITMETICAS=require('../Operaciones/Aritmeticas.js').Aritmeticas
     const OPERADOR=require('../Operaciones/Operacion.js').Operador
+    const IF=require('../Instruccion/IF.js').IF
+    const DECLARACION=require('../Instruccion/Declaracion.js').Declaracion
+    const IDENTIFICADOR=require('../Expresion/Identificador.js').Identificador
 %}
 
 %right 'IGUAL'
 %left 'OR'
 %left 'AND'
 %left 'IGUAL_IGUAL' 'DISTINTO' 
-%nonassoc 'MENOR' 'MENOR_IGUAL' 'MAYOR' 'MAYOR_IGUAL'
+%nonassoc 'MENOR' 'MAYOR'
 %left 'MAS' 'MENOS'
-%left 'POR' 'DIV' 'MODULO'
-%left 'POTENCIA'
+%left 'POR' 'DIV' 
+
 %right 'NOT'
 %right UMENOS
-%left 'COR_A' 'COR_C' 
-%left 'PAR_A' 'PAR_C'
+
 
 %start INICIAL
 %%
-INICIAL
-    : CUERPO EOF {var arbol=new AST($1);var a={'errores':lista_errores,'arbol':arbol};lista_errores=[];return a;}
+INICIAL: 
+    CUERPO EOF {var arbol=new AST($1);var a={'errores':lista_errores,'arbol':arbol};lista_errores=[];return a;}
     |EOF {var a={'errores':lista_errores};lista_errores=[];return a;}
     ;
 
 CUERPO:
     CUERPO IMPRIMIR PYCOMA{$1.push($2);$$=$1}
     |IMPRIMIR PYCOMA{$$=[$1];}
+    |CUERPO CONTROL_IF{$1.push($2);$$=$1}
+    |CONTROL_IF{$$=[$1]}
+    |DECLARACION{$$=[$1]}
+    |CUERPO DECLARACION{$1.push($2);$$=$1}
     | error PYCOMA{var nuevo=new ERRORES(TIPOERRORES.SINTACTICO,'Error con '+yytext,@1.first_line,@1.first_column+1);lista_errores.push(nuevo);$$=null}
+    ;
+DECLARACION:
+    ID DOSPUNTOS_IGUAL EXP PYCOMA{$$=new DECLARACION($3,new IDENTIFICADOR($1,this._$.first_line,this._$.first_column+1),this._$.first_line,this._$.first_column+1)}
+    ;
+CONTROL_IF:
+    IF PAR_A EXP PAR_C AMBITO{$$=new IF($3,$5,this._$.first_line,this._$.first_column+1)}
+    ;
+AMBITO:
+    LLAV_A CUERPO LLAV_C{$$=$2}
+    |LLAV_A LLAV_C{$$=[]}
     ;
 IMPRIMIR:
     PRINT PAR_A EXP PAR_C{$$=new PRINT($3,this._$.first_line,this._$.first_column+1)}
@@ -152,9 +165,13 @@ IMPRIMIR:
 
 EXP:
     EXP MAS EXP{$$=new ARITMETICAS($1,$3,OPERADOR.SUMA,this._$.first_line,this._$.first_column+1);}
+    |EXP MENOS EXP{$$=new ARITMETICAS($1,$3,OPERADOR.RESTA,this._$.first_line,this._$.first_column+1);}
+    |EXP POR EXP{$$=new ARITMETICAS($1,$3,OPERADOR.MULTIPLICACION,this._$.first_line,this._$.first_column+1);}
+    |EXP DIV EXP{$$=new ARITMETICAS($1,$3,OPERADOR.DIVISION,this._$.first_line,this._$.first_column+1);}
     |ENTERO {$$=new LITERAL(Number($1),new TIPOEXP(TIPO.INTEGER),this._$.first_line,this._$.first_column+1);}
     |DECIMAL{$$=new LITERAL(Number($1),new TIPOEXP(TIPO.DOUBLE),$1.first_line,$1.first_column+1);}
     |TRUE{$$=new LITERAL(true,new TIPOEXP(TIPO.BOOLEAN),$1.first_line,$1.first_column+1);}
     |FALSE{$$=new LITERAL(false,new TIPOEXP(TIPO.BOOLEAN),$1.first_line,$1.first_column+1);}
     |STRING{$$=new LITERAL($1,new TIPOEXP(TIPO.STRING),this._$.first_line,this._$.first_column+1);}
+    |ID{$$=new IDENTIFICADOR($1,this._$.first_line,this._$.first_column+1)}
     ;

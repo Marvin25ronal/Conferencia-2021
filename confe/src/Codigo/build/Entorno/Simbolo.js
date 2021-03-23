@@ -2,52 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Simbolo = void 0;
 var Simbolo = /** @class */ (function () {
-    function Simbolo(tipo, id, linea, columna) {
-        this._tipo = tipo;
-        this._columna = columna;
-        this._linea = linea;
-        this._id = id;
+    function Simbolo(valor, tipo, id, linea, columna) {
+        this.tipo = tipo;
+        this.id = id;
+        this.linea = linea;
+        this.columna = columna;
+        this.valor = valor;
     }
-    Object.defineProperty(Simbolo.prototype, "tipo", {
-        get: function () {
-            return this._tipo;
-        },
-        set: function (value) {
-            this._tipo = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Simbolo.prototype, "id", {
-        get: function () {
-            return this._id;
-        },
-        set: function (value) {
-            this._id = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Simbolo.prototype, "linea", {
-        get: function () {
-            return this._linea;
-        },
-        set: function (value) {
-            this._linea = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Simbolo.prototype, "columna", {
-        get: function () {
-            return this._columna;
-        },
-        set: function (value) {
-            this._columna = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    Simbolo.prototype.getTipo = function () {
+        return this.tipo;
+    };
+    Simbolo.prototype.setTipo = function (tipo) {
+        this.tipo = tipo;
+    };
+    Simbolo.prototype.getId = function () {
+        return this.id;
+    };
     return Simbolo;
 }());
 exports.Simbolo = Simbolo;

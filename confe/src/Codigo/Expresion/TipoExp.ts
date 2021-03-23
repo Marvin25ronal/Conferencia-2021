@@ -15,6 +15,9 @@ export class TipoExp {
     isNumeric() {
         return this.isInt() || this.isDouble()
     }
+    isBoolean(){
+        return this.tipo==Tipo.BOOLEAN
+    }
 }
 
 export enum Tipo {

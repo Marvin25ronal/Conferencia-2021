@@ -10,7 +10,8 @@ var Print = /** @class */ (function () {
         this.Ncolumna = columna;
     }
     Print.prototype.ejecutar = function (e) {
-        console.log(this.toprint);
+        //console.log(this.toprint)
+        //console.log(e.tabla)
         var val = this.toprint.getValor(e);
         if (val == null) {
             val = "nulo";
