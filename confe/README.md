@@ -188,7 +188,7 @@ Archivo de configuracion
 }
 ```
 
-##CORRER LINUX--- VIVA LINUX ABAJO WINDOWS
+## CORRER LINUX--- VIVA LINUX ABAJO WINDOWS
 ```bash
 sudo systemctl enable docker
 systemctl start docker
