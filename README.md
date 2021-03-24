@@ -188,3 +188,11 @@ Archivo de configuracion
 }
 ```
 
+## CORRER LINUX--- VIVA LINUX ABAJO WINDOWS
+```bash
+sudo systemctl enable docker
+systemctl start docker
+sudo docker login
+docker build -t marvin25/conferencia2021 .
+docker push image
+```
